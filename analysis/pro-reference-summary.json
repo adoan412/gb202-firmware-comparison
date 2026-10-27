@@ -1,0 +1,30 @@
+{
+  "commit": "c289bdedb5f256fdf1351de3cacf7757564a0dd0",
+  "repository": "https://github.com/waynehacking8/blackwell-tensorcore-kernels",
+  "scope": "tracked files at pinned default-branch checkout only; remote branches/history not exhaustively searched",
+  "matches": {
+    "privileged_register_or_fuse_capture": [],
+    "firmware_identity": []
+  },
+  "measured_hardware": "reported RTX PRO 6000 Blackwell Max-Q Workstation Edition, 188 SMs",
+  "medians_recomputed_from_published_rounded_rows": {
+    "f16acc": {
+      "ms_per_launch": 3.668,
+      "tflops": 440.3,
+      "flop_per_sm_clk": 1023.7,
+      "power_w": 301.6
+    },
+    "f32acc": {
+      "ms_per_launch": 3.784,
+      "tflops": 426.7,
+      "flop_per_sm_clk": 1023.8,
+      "power_w": 297.7
+    }
+  },
+  "ratios": {
+    "per_clock": 1.0000976848686138,
+    "wall_clock": 0.9691119691119691
+  },
+  "interpretation": "No privileged-register/fuse captures or firmware identity records found by patterns and manual inspection of tracked source/results. clock64, CUDA/PTX accumulator registers, NVML telemetry and Nsight register counts are present; these are not fuse/privilege-mask readouts.",
+  "independently_run": false
+}

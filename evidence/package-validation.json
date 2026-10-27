@@ -1,0 +1,24 @@
+{
+  "date": "2026-10-27",
+  "scope": "curated release directory, excluding work/ and Git metadata",
+  "prohibited_payloads_included": false,
+  "raw_issue_comments_included": false,
+  "vendor_pdf_copies_included": false,
+  "absolute_private_local_paths_detected": false,
+  "gpu_uuids_detected": false,
+  "credentials_detected": false,
+  "source_excerpts": "public NVIDIA MIT-licensed code only; no byte-array payloads; copyright/permission notice retained",
+  "relative_markdown_links_resolve": true,
+  "external_markdown_base_urls_http_success": 41,
+  "external_markdown_base_urls_checked": 41,
+  "pinned_source_line_bounds_checked": 20,
+  "hardware_actions_performed": false,
+  "publication_or_notifications_performed": false,
+  "remaining_manual_steps": [
+    "choose GitHub owner",
+    "replace outreach URL placeholders",
+    "review actual public commit identity",
+    "approve publishing and any comments separately"
+  ],
+  "scan_limit": "Automated patterns plus manual curated-file review; pattern scans alone cannot prove absence of secrets or all conceivable identifiers."
+}

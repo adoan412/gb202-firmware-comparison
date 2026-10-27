@@ -1,0 +1,436 @@
+{
+  "commit": "c289bdedb5f256fdf1351de3cacf7757564a0dd0",
+  "repository": "https://github.com/waynehacking8/blackwell-tensorcore-kernels",
+  "scope": "tracked files at pinned default-branch checkout only; remote branches/history not exhaustively searched",
+  "files": [
+    {
+      "path": ".gitignore",
+      "size": 232,
+      "sha256": "364a9cd2ca7cbf86bd4fb646cc23b9866954be098eb1f2938c58f01894973985"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "size": 2270,
+      "sha256": "b49ceb01df35833e39708414ee0bbc905399f662a60f4ad86841013374f7cf93"
+    },
+    {
+      "path": "LICENSE",
+      "size": 1079,
+      "sha256": "14cd351d8b54b5e28f35d338cf35420c86897535bcbf57eda6a1ff1e0ad2220f"
+    },
+    {
+      "path": "Makefile",
+      "size": 462,
+      "sha256": "2aa51d372f7f9fe598ae2e8abdfe99b2c849d801bd17feea4993ef17d2a27200"
+    },
+    {
+      "path": "README.md",
+      "size": 27008,
+      "sha256": "348040e350b00e91591ab72715e6099bfc2cc34f71c832b64e1618f3f6652e76"
+    },
+    {
+      "path": "VALIDATION.md",
+      "size": 20690,
+      "sha256": "a6a12833ec50aad9ce80f5ae7b692bfcc3e07d75956c7b096fa918bfed459cea"
+    },
+    {
+      "path": "analysis/plot.py",
+      "size": 13868,
+      "sha256": "208f8ed0f4a358602726b03c9a9b3c8ddd094dcf6789829459b7f49cb226d665"
+    },
+    {
+      "path": "analysis/reference_summary.py",
+      "size": 8596,
+      "sha256": "18b81b70db993d92329ea69ff16e2e3c0ff9e755ad673797b5bf684dff6bb083"
+    },
+    {
+      "path": "docs/design-decisions.md",
+      "size": 901,
+      "sha256": "ebdf9ac3c16c23cfb46a623ced09177d288e51b9b6b5f7c2e265f23160c91c1c"
+    },
+    {
+      "path": "docs/roadmap.md",
+      "size": 17992,
+      "sha256": "411c327d8ca8a23c4c1e45f7985eb9cdb9ee7fa1491cf4c62ae4bfb2528500aa"
+    },
+    {
+      "path": "experiments/wmma_ws_probe.cu",
+      "size": 6342,
+      "sha256": "67d6f284755cad0b06c26d8d663d6da3c5b9dee6df44ef03fdc210e25fe527b6"
+    },
+    {
+      "path": "include/mma_ptx.cuh",
+      "size": 8868,
+      "sha256": "3b05edd6b234e5f022ab2211fb847e0c4ac26ad1fde7c764cff9c9dfc2eb2d61"
+    },
+    {
+      "path": "include/util.cuh",
+      "size": 908,
+      "sha256": "d0f63c03615c3282730162c0f5de1e116b210ed5165ccf1365aecdcdf15ced2f"
+    },
+    {
+      "path": "results/.gitkeep",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "results/bench.csv",
+      "size": 10516,
+      "sha256": "eea37a56743951ee1d6d3bc12423efffb4100796626cbe076e5905705aebfb7c"
+    },
+    {
+      "path": "results/bench_fp32only.csv",
+      "size": 2176,
+      "sha256": "8801aa68c164ec672e769f7b6f0a5a17a0a0173966765b690c55b5e92fabec27"
+    },
+    {
+      "path": "results/bench_mma_session.csv",
+      "size": 6138,
+      "sha256": "bda6ceaa91c77bfb6a484fe59cf219bbd7d0b0f5d27a452b0606697905faeddc"
+    },
+    {
+      "path": "results/bench_phase3_session.csv",
+      "size": 3348,
+      "sha256": "d415b1c24f2edbf37ec75b66c43ce1838594bb91b0ba49cdca87e2878b4625d1"
+    },
+    {
+      "path": "results/bench_sm90a.clocks.csv",
+      "size": 119,
+      "sha256": "bcd1cc447550b08f9ce42c50587a6a58867a955eceb1dc07b9fcdabfaa5d7815"
+    },
+    {
+      "path": "results/bench_sm90a.csv",
+      "size": 1615,
+      "sha256": "8c7a83b4401b564ef4988a03675e8d8c4cc98db7f4a7d388135e2be7834bb729"
+    },
+    {
+      "path": "results/clock_state_mma_session.txt",
+      "size": 1303,
+      "sha256": "56b28fa83846e18c6fd5bc3e0983376d035f6d9caf6de59fffd40f3c79de494c"
+    },
+    {
+      "path": "results/clock_state_phase3_session.txt",
+      "size": 519,
+      "sha256": "430717f7298a06f48e19507430bdbc3e71b1e451ef9a2028c6e3e43d02868ac8"
+    },
+    {
+      "path": "results/clock_state_rate_probe.txt",
+      "size": 1764,
+      "sha256": "a4fdac845ce733f34ca2963fa5f909c917ca9583cf51a7ddc48e6a2710cb0113"
+    },
+    {
+      "path": "results/mma_ablation.md",
+      "size": 11043,
+      "sha256": "45bea7b421101d5ba33f74117ca132e6c7e518c5b2b09ef01832f9764c86ffc9"
+    },
+    {
+      "path": "results/mma_ablation_sm120.png",
+      "size": 80738,
+      "sha256": "ef9330eaa09a680c144ced3b9ffe051b5fd32721bfdc9cfa8ee750cc874d8bbc"
+    },
+    {
+      "path": "results/mma_rate_probe.csv",
+      "size": 706,
+      "sha256": "100760f993ba7456682138aabb89c68d400ea8dfe9a4371c4b1174411a6d27f2"
+    },
+    {
+      "path": "results/mma_stage_sweep.csv",
+      "size": 749,
+      "sha256": "9c59bd9788bc35e9eb3cbb1ac9942052b5db7b6c0eaa6b515cc3b1aa71172107"
+    },
+    {
+      "path": "results/ncu_cublas_8192.txt",
+      "size": 21844,
+      "sha256": "7b9d31c71f95a30c6f1cb4c5890a2f9498ff238b8e6a24117d0dc6f91f3d10de"
+    },
+    {
+      "path": "results/ncu_cublastc_8192.txt",
+      "size": 14588,
+      "sha256": "e1a80f180a847b489a1e850212d12a59c7f44d0eecd210eee1a0925085e5e690"
+    },
+    {
+      "path": "results/ncu_cutlass_8192.txt",
+      "size": 18046,
+      "sha256": "eb31c196c0d125dec43ad82174ac901dfef232457c439dc2121ba207bb097721"
+    },
+    {
+      "path": "results/ncu_fp8_tune.txt",
+      "size": 15313,
+      "sha256": "3960d3543d130f33ec4c815fc4fb625ce1dd708cbd6dfbdcab4d389c0cba71ed"
+    },
+    {
+      "path": "results/ncu_ltfp8_tune.txt",
+      "size": 11354,
+      "sha256": "3e7531480ed2080830afdcc65f816311710283938ea794fd5de41de65aab7f99"
+    },
+    {
+      "path": "results/ncu_sm120_cublastc_8192.txt",
+      "size": 14999,
+      "sha256": "554356a439274ce57dc97416d1a39ebf53d35cdeb07d35ed45dd3d6b2b52e47b"
+    },
+    {
+      "path": "results/ncu_sm120_mma_warptile_8192.txt",
+      "size": 15311,
+      "sha256": "2a82acbd9ff93565b9133633f602cd14b0863f418d9ea776598166cec69f8ad4"
+    },
+    {
+      "path": "results/ncu_sm120_wmma_8192.txt",
+      "size": 14446,
+      "sha256": "5295b2929ef00312b09bd105faf4ebe18a017c0c54f2c6a13127744f6899650b"
+    },
+    {
+      "path": "results/ncu_wmma_8192.txt",
+      "size": 17941,
+      "sha256": "e1d47b5fa1d371a69751fcc95fb536ce77fbe9fc329a5f50a9b9834980c50340"
+    },
+    {
+      "path": "results/nsys_kern_sum_4096.txt",
+      "size": 2249,
+      "sha256": "bafdbebe54820983e61f72bc73c2641bdeec0ca60a9a77b8b982296a78b9324e"
+    },
+    {
+      "path": "results/nsys_kern_sum_8192.txt",
+      "size": 2289,
+      "sha256": "ea9c2a915530212cf5f10ea5974f98a001efc50365b64170487f8b4f4a912c66"
+    },
+    {
+      "path": "results/nsys_kern_sum_mma_8192.txt",
+      "size": 2084,
+      "sha256": "a00dde39e33ac06d96ba2e81f938c514f421a82b48f5db8252c1b15bd0fe5bb4"
+    },
+    {
+      "path": "results/nsys_profile.md",
+      "size": 14532,
+      "sha256": "51c80f487ba32c2f7e0d73970ffd78d74bb3eb7b51b4c101299ba909d0f43528"
+    },
+    {
+      "path": "results/pct_tc_sm120.png",
+      "size": 134841,
+      "sha256": "83bffa1fe033caf072499b10bf22382039a3e5da44e094ed89a780a858df0936"
+    },
+    {
+      "path": "results/pct_tc_sm90.png",
+      "size": 85562,
+      "sha256": "bc5e8183bb2ccb5cb8c075bc0ad65e1defa9bc778d3bb0511c32ef8922187b7c"
+    },
+    {
+      "path": "results/phase3_lowprec.md",
+      "size": 5193,
+      "sha256": "5b1746844063b8973575403b0e0da07906accfd84c1f3ddeb2fd85beca3c0fc7"
+    },
+    {
+      "path": "results/precision_pareto_sm120.png",
+      "size": 101163,
+      "sha256": "cfdd5012e9b59f858ad670f03c91f7d33b9b03e12eaa76e4098d8743622a8ebf"
+    },
+    {
+      "path": "results/reference/deepgemm.clocks.csv",
+      "size": 214,
+      "sha256": "9af5c26c73c2b81df432d67ac1ad1a55120fb4ccdf74d963265ed9cf4ae5c847"
+    },
+    {
+      "path": "results/reference/deepgemm.txt",
+      "size": 38053,
+      "sha256": "d859b782cdda93bbb54bda74f3b898a7bdd5c8b538dec4de637587cb6255c630"
+    },
+    {
+      "path": "results/reference/fa3.build.log",
+      "size": 2273,
+      "sha256": "2e9775c006f5de05aa833d48839e09fa366d8dcc14e0ec0c831bba353d73fb0f"
+    },
+    {
+      "path": "results/reference/fa3.clocks.csv",
+      "size": 175,
+      "sha256": "989e997dbf40e2f5e3a4794a21c91aa24565c6514da0547a88cb30d6e339267e"
+    },
+    {
+      "path": "results/reference/fa3.txt",
+      "size": 2024,
+      "sha256": "1b5582794abaf4bec7ca577964479d68bc257d4f5a2848c412ae5095c6c99ae8"
+    },
+    {
+      "path": "results/reference/streamk.clocks.csv",
+      "size": 63,
+      "sha256": "51c5599db6131ce64ef349f9618f43d129a314d4c1e0cc8504034b6cb13591f9"
+    },
+    {
+      "path": "results/reference/streamk.txt",
+      "size": 3075,
+      "sha256": "73d3c4b209b7e6833727cbcf98e9e6476835ee8ef16da829a9e9c8a88ed30a2f"
+    },
+    {
+      "path": "results/reference/streamk_build.log",
+      "size": 249,
+      "sha256": "19e8cb0f5015c7c82fd9bc542f6ef5ffb85a6d0e99cb8719cf7c274c07dbfd50"
+    },
+    {
+      "path": "results/reference/streamk_configure.log",
+      "size": 2444,
+      "sha256": "fc868cc335f99651c044c01a14b59d328d6dccee1874fd44dac0adc71312b866"
+    },
+    {
+      "path": "results/reference/summary.md",
+      "size": 1147,
+      "sha256": "65b7bec8afce0055d48198271c2e1ea95e71111b135cfef61ca2301fa149dde3"
+    },
+    {
+      "path": "results/reference/tk.clocks.csv",
+      "size": 216,
+      "sha256": "bd6e464ed355b7d73240ba0aee830d5399e712d559d7a69edd524e957d1f5ea4"
+    },
+    {
+      "path": "results/reference/tk.txt",
+      "size": 5689,
+      "sha256": "060b38ea17a634fa7e6d23122efdf419146ef9bc2b4e1fe8ef418968bfb53955"
+    },
+    {
+      "path": "results/reference_benches.png",
+      "size": 87048,
+      "sha256": "9f42ba7b16adb86e64e51d02589495135dd3ca4db2c4bdd21d002de7a871fc08"
+    },
+    {
+      "path": "results/report.md",
+      "size": 2537,
+      "sha256": "79db6e1cf591ba80292963804cfd28183d43fc8f2782fd5815362f728e847074"
+    },
+    {
+      "path": "results/roofline_sm120.png",
+      "size": 67509,
+      "sha256": "6d3640d02d18a78fb29da1434a951e2dccb1555c8344acb97db87b497e113f86"
+    },
+    {
+      "path": "results/roofline_sm90.png",
+      "size": 44329,
+      "sha256": "78685e000e96474c4cb5cd167dafed821203e8f1969feb262febb52fd44c08f4"
+    },
+    {
+      "path": "results/tflops_sm120.png",
+      "size": 161289,
+      "sha256": "3cfe497b76e5dc9e7544d584cadc84be74449676aaae0dac892dbb5bf29de861"
+    },
+    {
+      "path": "results/tflops_sm90.png",
+      "size": 92416,
+      "sha256": "64f6b952a05248cc627ea9c7fae0f766fe5abb69d9ce48715f5650bdc0aba667"
+    },
+    {
+      "path": "scripts/profile.sh",
+      "size": 760,
+      "sha256": "5a10deed31676e065a713ffda6b47d71968a14f228cf2c1f6f6549a970df0031"
+    },
+    {
+      "path": "scripts/profile_mma_ncu.sh",
+      "size": 2581,
+      "sha256": "b18ebb8f6fdeef2074fe601d313c3c36a5fa4cb10ba17e40c83dfd22644b5b0a"
+    },
+    {
+      "path": "scripts/run_bench.sh",
+      "size": 770,
+      "sha256": "641411a92787f9b29cf887b0c814df725da8cea2a7028106cf0a8d6c93da7a21"
+    },
+    {
+      "path": "scripts/run_rate_probe.sh",
+      "size": 1058,
+      "sha256": "89b0f24e8444034bfb9345f8a822e61fb2d56a5e4caf33a62f1df858e506e3f9"
+    },
+    {
+      "path": "scripts/run_reference_benches.sh",
+      "size": 4901,
+      "sha256": "d014799bd84b7fc2cb797cd24d3068e1ef90bf83f560d570d9f4629febf74153"
+    },
+    {
+      "path": "scripts/sweep_mma_stages.sh",
+      "size": 900,
+      "sha256": "75cbd850ca8f0228877518841d60409216f4befd209d7fe847a23b95dfb5ece1"
+    },
+    {
+      "path": "src/cublas_tc.cu",
+      "size": 2299,
+      "sha256": "9e8bde2b0503948f3784554e87f92973a882cd145ee802617b1e7f61a2e07867"
+    },
+    {
+      "path": "src/cublas_tf32.cu",
+      "size": 1237,
+      "sha256": "c5bc6bddfb54a0f194f07b110bf34272f22bda856f47a9583608333d83f1a701"
+    },
+    {
+      "path": "src/cublaslt_fp8.cu",
+      "size": 4327,
+      "sha256": "d95c1db36442d8f88c0918e4c020454be9c274b2f8088ef3078da6d48a9069f4"
+    },
+    {
+      "path": "src/cutlass_sm90.cu",
+      "size": 5854,
+      "sha256": "de64326c7d546552d2a6440a28c98defed6d22578ef358c75a3c41899f2dbb75"
+    },
+    {
+      "path": "src/gemm_mma.cu",
+      "size": 10078,
+      "sha256": "b79fb9e1fa4309711b0a6651f2e9fc287ec1dd2246635318f6b093cfeb05e7d0"
+    },
+    {
+      "path": "src/gemm_mma_fp8.cu",
+      "size": 15184,
+      "sha256": "f34c7519c065bc412781d50e6f01102b8e1514414bcdf852499c68c8b5270e8e"
+    },
+    {
+      "path": "src/gemm_naive.cu",
+      "size": 562,
+      "sha256": "17a6ca25758ff209b83a86e6e8c778e87032bbd69f13bd381f2a86c7895fd0cb"
+    },
+    {
+      "path": "src/gemm_tiled.cu",
+      "size": 898,
+      "sha256": "09ec025303b5a2a7b9d8a2fe938624f8b948bbb8cdff5a9404703e690a5b8d56"
+    },
+    {
+      "path": "src/gemm_wmma.cu",
+      "size": 6068,
+      "sha256": "f29efbbaaa8583d5a91b9205d6f9f07550a6e099d26d0c08f5233cc93ec8b1c8"
+    },
+    {
+      "path": "src/main.cu",
+      "size": 6069,
+      "sha256": "87d4ded9f53805141e7dcd05bcd9bc5bc90c71bbf1b17e5ae2ed391a6cd78445"
+    },
+    {
+      "path": "src/mma_rate_probe.cu",
+      "size": 11847,
+      "sha256": "8d4195b205674d71ec32a557d6be8ece80b8b4a4785a5d1e03f74d8d70f2d74c"
+    },
+    {
+      "path": "src/reference.cu",
+      "size": 456,
+      "sha256": "1532969e8f0cacf61dacfb207294f3ed1d1704069a068d9a6e3995cb7c1f1c06"
+    }
+  ],
+  "search_patterns": {
+    "privileged_register_or_fuse_capture": "(?i)\\bMMIO\\b|\\bBAR0\\b|FEAT_OVR|FUSE_SS_|read_sm_rates|GET_SM_ISSUE_RATE|/dev/mem|resource0|\\bsetpci\\b|register[ _-]*(?:dump|capture)|0x0*8238[0-9a-f]+|0x0*8207[0-9a-f]+",
+    "firmware_identity": "(?i)\\bVBIOS\\b|gsp[_ -]firmware|firmware[ _-](?:hash|version)|gsp_ga10x"
+  },
+  "matches": {
+    "privileged_register_or_fuse_capture": [],
+    "firmware_identity": []
+  },
+  "measured_hardware": "reported RTX PRO 6000 Blackwell Max-Q Workstation Edition, 188 SMs",
+  "medians_recomputed_from_published_rounded_rows": {
+    "f16acc": {
+      "ms_per_launch": 3.668,
+      "tflops": 440.3,
+      "flop_per_sm_clk": 1023.7,
+      "power_w": 301.6
+    },
+    "f32acc": {
+      "ms_per_launch": 3.784,
+      "tflops": 426.7,
+      "flop_per_sm_clk": 1023.8,
+      "power_w": 297.7
+    }
+  },
+  "ratios": {
+    "per_clock": 1.0000976848686138,
+    "wall_clock": 0.9691119691119691
+  },
+  "interpretation": "No privileged-register/fuse captures or firmware identity records found by patterns and manual inspection of tracked source/results. clock64, CUDA/PTX accumulator registers, NVML telemetry and Nsight register counts are present; these are not fuse/privilege-mask readouts.",
+  "independently_run": false
+}

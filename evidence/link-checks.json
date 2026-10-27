@@ -1,0 +1,337 @@
+{
+  "date": "2026-10-27",
+  "scope": "External Markdown citation URLs fetched with HEAD; GitHub source paths and line bounds also checked against pinned local source. HTTP success does not independently validate source claims.",
+  "results": [
+    {
+      "url": "https://docs.kernel.org/gpu/nova/core/fsp.html",
+      "status": 200,
+      "resolved_url": "https://docs.kernel.org/gpu/nova/core/fsp.html",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/",
+      "status": 200,
+      "resolved_url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03-no-compat32.run.sha256sum",
+      "status": 200,
+      "resolved_url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03-no-compat32.run.sha256sum",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/README/kernel_open.html",
+      "status": 200,
+      "resolved_url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/README/kernel_open.html",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/license.txt",
+      "status": 200,
+      "resolved_url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/license.txt",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/JustAResearcher/gpu-unlock-ada",
+      "status": 200,
+      "resolved_url": "https://github.com/JustAResearcher/gpu-unlock-ada",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/JustAResearcher/gpu-unlock-ada/issues/12",
+      "status": 200,
+      "resolved_url": "https://github.com/JustAResearcher/gpu-unlock-ada/issues/12",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/JustAResearcher/gpu-unlock-ada/issues/86",
+      "status": 200,
+      "resolved_url": "https://github.com/JustAResearcher/gpu-unlock-ada/issues/86",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/JustAResearcher/gpu-unlock-ada/tree/d28c485418c3d9d034cd4bac19200bc33dd3453b",
+      "status": 200,
+      "resolved_url": "https://github.com/JustAResearcher/gpu-unlock-ada/tree/d28c485418c3d9d034cd4bac19200bc33dd3453b",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/COPYING",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/COPYING",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/README.md",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/README.md",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/kernel-open/common/inc/nv-firmware.h",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/kernel-open/common/inc/nv-firmware.h",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/nouveau/extract-firmware-nouveau.py",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/nouveau/extract-firmware-nouveau.py",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/arch/nvalloc/common/inc/nv-firmware-chip-family-select.h",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/arch/nvalloc/common/inc/nv-firmware-chip-family-select.h",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmBoot_GB202.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmBoot_GB202.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmFmcGfwProdSigned_GB202.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmFmcGfwProdSigned_GB202.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_kernel_gsp_nvoc.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_kernel_gsp_nvoc.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/blackwell/kern_fsp_gb202.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/blackwell/kern_fsp_gb202.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gr/kernel_graphics.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gr/kernel_graphics.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb100.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb100.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb202.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb202.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/hopper/kernel_gsp_gh100.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/hopper/kernel_gsp_gh100.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/tree/db0c4e65c8e34c678d745ddb1317f53f90d1072b",
+      "status": 200,
+      "resolved_url": "https://github.com/NVIDIA/open-gpu-kernel-modules/tree/db0c4e65c8e34c678d745ddb1317f53f90d1072b",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/bird/vgpu-unlock-blackwell",
+      "status": 200,
+      "resolved_url": "https://github.com/bird/vgpu-unlock-blackwell",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/bird/vgpu-unlock-blackwell/blob/22d2b112e20981565d543b74745c8c02bf4e8960/README.md",
+      "status": 200,
+      "resolved_url": "https://github.com/bird/vgpu-unlock-blackwell/blob/22d2b112e20981565d543b74745c8c02bf4e8960/README.md",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/bird/vgpu-unlock-blackwell/tree/22d2b112e20981565d543b74745c8c02bf4e8960",
+      "status": 200,
+      "resolved_url": "https://github.com/bird/vgpu-unlock-blackwell/tree/22d2b112e20981565d543b74745c8c02bf4e8960",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/phiraml/gpu-unlock-blackwell",
+      "status": 200,
+      "resolved_url": "https://github.com/phiraml/gpu-unlock-blackwell",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/phiraml/gpu-unlock-blackwell/blob/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c/probe/5090-stock.json",
+      "status": 200,
+      "resolved_url": "https://github.com/phiraml/gpu-unlock-blackwell/blob/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c/probe/5090-stock.json",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/phiraml/gpu-unlock-blackwell/blob/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c/probe/mma_rate.py",
+      "status": 200,
+      "resolved_url": "https://github.com/phiraml/gpu-unlock-blackwell/blob/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c/probe/mma_rate.py",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/phiraml/gpu-unlock-blackwell/tree/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c",
+      "status": 200,
+      "resolved_url": "https://github.com/phiraml/gpu-unlock-blackwell/tree/d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels",
+      "status": 200,
+      "resolved_url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/results/clock_state_rate_probe.txt",
+      "status": 200,
+      "resolved_url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/results/clock_state_rate_probe.txt",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/results/mma_rate_probe.csv",
+      "status": 200,
+      "resolved_url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/results/mma_rate_probe.csv",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/src/mma_rate_probe.cu",
+      "status": 200,
+      "resolved_url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/blob/c289bdedb5f256fdf1351de3cacf7757564a0dd0/src/mma_rate_probe.cu",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/tree/c289bdedb5f256fdf1351de3cacf7757564a0dd0",
+      "status": 200,
+      "resolved_url": "https://github.com/waynehacking8/blackwell-tensorcore-kernels/tree/c289bdedb5f256fdf1351de3cacf7757564a0dd0",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://images.nvidia.com/aem-dam/Solutions/geforce/blackwell/nvidia-rtx-blackwell-gpu-architecture.pdf",
+      "status": 200,
+      "resolved_url": "https://images.nvidia.com/aem-dam/Solutions/geforce/blackwell/nvidia-rtx-blackwell-gpu-architecture.pdf",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://lkml.iu.edu/2608.3/02631.html",
+      "status": 200,
+      "resolved_url": "https://lkml.iu.edu/2608.3/02631.html",
+      "method": "HEAD"
+    },
+    {
+      "url": "https://www.nvidia.com/content/dam/en-zz/Solutions/design-visualization/quadro-product-literature/NVIDIA-RTX-Blackwell-PRO-GPU-Architecture-v1.0.pdf",
+      "status": 200,
+      "resolved_url": "https://www.nvidia.com/content/dam/en-zz/Solutions/design-visualization/quadro-product-literature/NVIDIA-RTX-Blackwell-PRO-GPU-Architecture-v1.0.pdf",
+      "method": "HEAD"
+    }
+  ],
+  "pinned_source_anchor_checks": [
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/COPYING",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/README.md#L956-L976",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/kernel-open/common/inc/nv-firmware.h#L82-L111",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/nouveau/extract-firmware-nouveau.py",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h#L1518-L1582",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/arch/nvalloc/common/inc/nv-firmware-chip-family-select.h#L33-L73",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmBoot_GB202.c",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_bindata_kgspGetBinArchiveGspRmFmcGfwProdSigned_GB202.c",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_kernel_gsp_nvoc.c#L1593-L1627",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_kernel_gsp_nvoc.c#L768-L805",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/generated/g_kernel_gsp_nvoc.c#L831-L1030",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/blackwell/kern_fsp_gb202.c#L42-L95",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c#L826-L865",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c#L990-L1080",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gr/kernel_graphics.c#L1380-L1411",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gr/kernel_graphics.c#L3197-L3252",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb100.c#L240-L254",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb202.c#L34-L63",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/arch/hopper/kernel_gsp_gh100.c#L780-L830",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    },
+    {
+      "url": "https://github.com/NVIDIA/open-gpu-kernel-modules/blob/db0c4e65c8e34c678d745ddb1317f53f90d1072b/src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c#L5590-L5718",
+      "pinned_local_source_exists_and_line_bounds_valid": true
+    }
+  ],
+  "placeholder": "RESEARCH_REPOSITORY_URL intentionally unresolved in unposted drafts",
+  "http_success_count": 41,
+  "total_network_urls": 41
+}

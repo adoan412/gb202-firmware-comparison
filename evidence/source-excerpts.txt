@@ -1,0 +1,995 @@
+Public NVIDIA MIT-licensed source excerpts. Original notice follows; other excerpt files carry NVIDIA copyright years 2021–2025. See THIRD_PARTY_NOTICES.md.
+
+/*
+ * SPDX-FileCopyrightText: Copyright (c) 2019-2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+ * SPDX-License-Identifier: MIT
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a
+ * copy of this software and associated documentation files (the "Software"),
+ * to deal in the Software without restriction, including without limitation
+ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ * and/or sell copies of the Software, and to permit persons to whom the
+ * Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ * DEALINGS IN THE SOFTWARE.
+ */
+
+Pinned NVIDIA 595.58.03 source excerpts. Line numbers are one-based.
+
+
+## family-selection: src/nvidia/arch/nvalloc/common/inc/nv-firmware-chip-family-select.h
+
+33: static inline nv_firmware_chip_family_t nv_firmware_get_chip_family(
+34:     NvU32 gpuArch,
+35:     NvU32 gpuImpl
+36: )
+37: {
+38:     switch (gpuArch)
+39:     {
+40:         case GPU_ARCHITECTURE_TURING:
+41:             if (gpuImpl <= GPU_IMPLEMENTATION_TU106)
+42:                 return NV_FIRMWARE_CHIP_FAMILY_TU10X;
+43:             else
+44:                 return NV_FIRMWARE_CHIP_FAMILY_TU11X;
+45: 
+46:         case GPU_ARCHITECTURE_AMPERE:
+47:             if (gpuImpl == GPU_IMPLEMENTATION_GA100)
+48:                 return NV_FIRMWARE_CHIP_FAMILY_GA100;
+49:             else
+50:                 return NV_FIRMWARE_CHIP_FAMILY_GA10X;
+51: 
+52:         case GPU_ARCHITECTURE_ADA:
+53:             return NV_FIRMWARE_CHIP_FAMILY_AD10X;
+54: 
+55:         case GPU_ARCHITECTURE_HOPPER:
+56:             return NV_FIRMWARE_CHIP_FAMILY_GH100;
+57: 
+58:         case GPU_ARCHITECTURE_BLACKWELL_GB1XX:
+59:             if (gpuImpl == GPU_IMPLEMENTATION_GB10B)
+60:                 return NV_FIRMWARE_CHIP_FAMILY_GB10Y;
+61:             else
+62:                 return NV_FIRMWARE_CHIP_FAMILY_GB10X;
+63: 
+64:         case GPU_ARCHITECTURE_BLACKWELL_GB2XX:
+65:             if (gpuImpl >= GPU_IMPLEMENTATION_GB20B)
+66:                 return NV_FIRMWARE_CHIP_FAMILY_GB20Y;
+67:             else
+68:                 return NV_FIRMWARE_CHIP_FAMILY_GB20X;
+69: 
+70:     }
+71: 
+72:     return NV_FIRMWARE_CHIP_FAMILY_NULL;
+73: }
+
+## filename-selection: kernel-open/common/inc/nv-firmware.h
+
+82: // to return a platform-defined string for a given a gsp_* or gsp_log_* name.
+83: //
+84: // The function nv_firmware_for_chip_family will then be available.
+85: #if defined(NV_FIRMWARE_FOR_NAME)
+86: static inline const char *nv_firmware_for_chip_family(
+87:     nv_firmware_type_t fw_type,
+88:     nv_firmware_chip_family_t fw_chip_family
+89: )
+90: {
+91:     if (fw_type == NV_FIRMWARE_TYPE_GSP)
+92:     {
+93:         switch (fw_chip_family)
+94:         {
+95:             case NV_FIRMWARE_CHIP_FAMILY_GB10X:  // fall through
+96:             case NV_FIRMWARE_CHIP_FAMILY_GB10Y:  // fall through
+97:             case NV_FIRMWARE_CHIP_FAMILY_GB20Y:  // fall through
+98:             case NV_FIRMWARE_CHIP_FAMILY_GB20X:  // fall through
+99:             case NV_FIRMWARE_CHIP_FAMILY_GH100:  // fall through
+100:             case NV_FIRMWARE_CHIP_FAMILY_AD10X:  // fall through
+101:             case NV_FIRMWARE_CHIP_FAMILY_GA10X:
+102:                 return NV_FIRMWARE_FOR_NAME("gsp_ga10x");
+103: 
+104:             case NV_FIRMWARE_CHIP_FAMILY_GA100:  // fall through
+105:             case NV_FIRMWARE_CHIP_FAMILY_TU11X:  // fall through
+106:             case NV_FIRMWARE_CHIP_FAMILY_TU10X:
+107:                 return NV_FIRMWARE_FOR_NAME("gsp_tu10x");
+108: 
+109:             case NV_FIRMWARE_CHIP_FAMILY_END:  // fall through
+110:             case NV_FIRMWARE_CHIP_FAMILY_NULL:
+111:                 return "";
+
+## elf-payload-selection: src/nvidia/src/kernel/gpu/gsp/kernel_gsp.c
+
+5590:     OBJGPU *pGpu,
+5591:     KernelGsp *pKernelGsp,
+5592:     char *pSectionNameBuf,  // out
+5593:     NvLength sectionNameBufSize,
+5594:     const char *pSectionPrefix
+5595: )
+5596: {
+5597:     NvLength sectionPrefixLength;
+5598: 
+5599:     nv_firmware_chip_family_t chipFamily;
+5600:     const char *pChipFamilyName;
+5601:     NvLength chipFamilyNameLength;
+5602: 
+5603:     NvLength totalSize;
+5604: 
+5605:     NV_ASSERT_OR_RETURN(pSectionNameBuf != NULL, NV_ERR_INVALID_ARGUMENT);
+5606:     NV_ASSERT_OR_RETURN(sectionNameBufSize > 0, NV_ERR_INVALID_ARGUMENT);
+5607:     NV_ASSERT_OR_RETURN(pSectionPrefix != NULL, NV_ERR_INVALID_ARGUMENT);
+5608: 
+5609:     chipFamily = nv_firmware_get_chip_family(gpuGetChipArch(pGpu),
+5610:                                              gpuGetChipImpl(pGpu));
+5611:     NV_ASSERT_OR_RETURN(chipFamily != NV_FIRMWARE_CHIP_FAMILY_NULL,
+5612:                         NV_ERR_INVALID_STATE);
+5613: 
+5614:     pChipFamilyName = nv_firmware_chip_family_to_string(chipFamily);
+5615:     NV_ASSERT_OR_RETURN(portStringLength(pChipFamilyName) != 0, NV_ERR_INVALID_STATE);
+5616: 
+5617:     sectionPrefixLength = portStringLength(pSectionPrefix);
+5618:     chipFamilyNameLength = portStringLength(pChipFamilyName);
+5619: 
+5620:     totalSize = sectionPrefixLength + chipFamilyNameLength + 1;
+5621:     NV_ASSERT_OR_RETURN(sectionNameBufSize >= sectionPrefixLength + 1,
+5622:                         NV_ERR_BUFFER_TOO_SMALL);
+5623:     NV_ASSERT_OR_RETURN(sectionNameBufSize >= totalSize,
+5624:                         NV_ERR_BUFFER_TOO_SMALL);
+5625: 
+5626:     portStringCopy(pSectionNameBuf, sectionNameBufSize,
+5627:                    pSectionPrefix, sectionPrefixLength + 1);
+5628:     portStringCat(pSectionNameBuf, sectionNameBufSize,
+5629:                   pChipFamilyName, chipFamilyNameLength + 1);
+5630: 
+5631:     return NV_OK;
+5632: }
+5633: 
+5634: static NV_STATUS
+5635: _kgspPrepareGspRmBinaryImage
+5636: (
+5637:     OBJGPU *pGpu,
+5638:     KernelGsp *pKernelGsp,
+5639:     GSP_FIRMWARE *pGspFw
+5640: )
+5641: {
+5642:     char signatureSectionName[32];
+5643: 
+5644:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5645:         _kgspFwContainerVerifyVersion(pGpu, pKernelGsp,
+5646:             pGspFw->pBuf,
+5647:             pGspFw->size,
+5648:             "GSP firmware image"));
+5649: 
+5650:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5651:         _kgspFwContainerGetSection(pGpu, pKernelGsp,
+5652:             pGspFw->pBuf,
+5653:             pGspFw->size,
+5654:             GSP_IMAGE_SECTION_NAME,
+5655:             &pGspFw->pImageData,
+5656:             &pGspFw->imageSize));
+5657: 
+5658:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5659:         _kgspGetSectionNameForPrefix(pGpu, pKernelGsp,
+5660:             signatureSectionName, sizeof(signatureSectionName),
+5661:             kgspGetSignatureSectionNamePrefix_HAL(pGpu, pKernelGsp)));
+5662: 
+5663:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5664:         _kgspFwContainerGetSection(pGpu, pKernelGsp,
+5665:             pGspFw->pBuf,
+5666:             pGspFw->size,
+5667:             signatureSectionName,
+5668:             &pGspFw->pSignatureData,
+5669:             &pGspFw->signatureSize));
+5670: 
+5671:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5672:         _kgspCreateSignatureMemdesc(pGpu, pKernelGsp,
+5673:             pGspFw));
+5674: 
+5675:     NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+5676:         kgspCreateRadix3(pGpu, pKernelGsp, &pKernelGsp->pGspUCodeRadix3Descriptor,
+5677:             NULL, pGspFw->pImageData, pGspFw->imageSize));
+5678: 
+5679:     {
+5680:         // read build-id
+5681:         const void *pBuildIdSectionData = NULL;
+5682:         NvU64 buildIdSectionSize = 0;
+5683: 
+5684:         NV_ASSERT_OK_OR_RETURN(
+5685:             _kgspFwContainerGetSection(pGpu, pKernelGsp,
+5686:                 pGspFw->pBuf,
+5687:                 pGspFw->size,
+5688:                 GSP_BUILD_ID_SECTION_NAME,
+5689:                 &pBuildIdSectionData,
+5690:                 &buildIdSectionSize));
+5691: 
+5692:         pKernelGsp->pBuildIdSection = portMemAllocNonPaged(buildIdSectionSize);
+5693: 
+5694:         NV_ASSERT_OR_RETURN(pKernelGsp->pBuildIdSection != NULL, NV_ERR_NO_MEMORY);
+5695: 
+5696:         pKernelGsp->buildIdSectionSize = buildIdSectionSize;
+5697: 
+5698:         portMemCopy(pKernelGsp->pBuildIdSection, buildIdSectionSize, pBuildIdSectionData, buildIdSectionSize);
+5699:     }
+5700: 
+5701:     return NV_OK;
+5702: }
+5703: 
+5704: NV_STATUS
+5705: kgspCreateRadix3_IMPL
+5706: (
+5707:     OBJGPU *pGpu,
+5708:     KernelGsp *pKernelGsp,
+5709:     MEMORY_DESCRIPTOR **ppMemdescRadix3,
+5710:     MEMORY_DESCRIPTOR *pMemdescData,
+5711:     const void *pData,
+5712:     NvU64 size
+5713: )
+5714: {
+5715:     const NvU64 entriesLog2 = LIBOS_MEMORY_REGION_RADIX_PAGE_LOG2 - 3;
+5716:     NvU8 *pRadix3Buf;
+5717:     NvP64 pVaKernel;
+5718:     NvP64 pPrivKernel;
+5719:     NvU64 ptSize;
+5720:     NvU64 allocSize;
+5721:     NvU64 nPages = 0;
+
+## asset-dispatch: src/nvidia/generated/g_kernel_gsp_nvoc.c
+
+831:         pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_f2d351;
+832:     }
+833:     else
+834:     {
+835:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+836:         {
+837:             pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_GH100;
+838:         }
+839:         else if (( ((chipHal_HalVarIdx >> 5) == 3UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x0000a000UL) )) /* ChipHal: T234D | T264D */ 
+840:         {
+841:             pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_f2d351;
+842:         }
+843:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000007e0UL) )) /* ChipHal: TU102 | TU104 | TU106 | TU116 | TU117 | GA100 */ 
+844:         {
+845:             pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_TU102;
+846:         }
+847:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x01f0f800UL) )) /* ChipHal: GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD104 | AD106 | AD107 */ 
+848:         {
+849:             pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_GA102;
+850:         }
+851:         else
+852:         {
+853:             pThis->__kgspGetGspRmBootUcodeStorage__ = &kgspGetGspRmBootUcodeStorage_GB100;
+854:         }
+855:     }
+856: 
+857:     // kgspGetBinArchiveGspRmBoot -- halified (11 hals) body
+858:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+859:     {
+860:         pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_80f438;
+861:     }
+862:     else
+863:     {
+864:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000400UL) )) /* ChipHal: GA100 */ 
+865:         {
+866:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GA100;
+867:         }
+868:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+869:         {
+870:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GH100;
+871:         }
+872:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x20000000UL) )) /* ChipHal: GB10B */ 
+873:         {
+874:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GB10B;
+875:         }
+876:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000300UL) )) /* ChipHal: GB20B | GB20C */ 
+877:         {
+878:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GB20B;
+879:         }
+880:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000003e0UL) )) /* ChipHal: TU102 | TU104 | TU106 | TU116 | TU117 */ 
+881:         {
+882:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_TU102;
+883:         }
+884:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x0000f800UL) )) /* ChipHal: GA102 | GA103 | GA104 | GA106 | GA107 */ 
+885:         {
+886:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GA102;
+887:         }
+888:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x01f00000UL) )) /* ChipHal: AD102 | AD103 | AD104 | AD106 | AD107 */ 
+889:         {
+890:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_AD102;
+891:         }
+892:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000000f8UL) )) /* ChipHal: GB202 | GB203 | GB205 | GB206 | GB207 */ 
+893:         {
+894:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GB202;
+895:         }
+896:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x98000000UL) ) ||
+897:                  ( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* ChipHal: GB100 | GB102 | GB110 | GB112 */ 
+898:         {
+899:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_GB100;
+900:         }
+901:         // default
+902:         else
+903:         {
+904:             pThis->__kgspGetBinArchiveGspRmBoot__ = &kgspGetBinArchiveGspRmBoot_80f438;
+905:         }
+906:     }
+907: 
+908:     // kgspGetBinArchiveConcatenatedFMCDesc -- halified (5 hals) body
+909:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+910:     {
+911:         pThis->__kgspGetBinArchiveConcatenatedFMCDesc__ = &kgspGetBinArchiveConcatenatedFMCDesc_80f438;
+912:     }
+913:     else
+914:     {
+915:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+916:         {
+917:             pThis->__kgspGetBinArchiveConcatenatedFMCDesc__ = &kgspGetBinArchiveConcatenatedFMCDesc_GH100;
+918:         }
+919:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000003f8UL) )) /* ChipHal: GB202 | GB203 | GB205 | GB206 | GB207 | GB20B | GB20C */ 
+920:         {
+921:             pThis->__kgspGetBinArchiveConcatenatedFMCDesc__ = &kgspGetBinArchiveConcatenatedFMCDesc_GB202;
+922:         }
+923:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0xb8000000UL) ) ||
+924:                  ( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* ChipHal: GB100 | GB102 | GB10B | GB110 | GB112 */ 
+925:         {
+926:             pThis->__kgspGetBinArchiveConcatenatedFMCDesc__ = &kgspGetBinArchiveConcatenatedFMCDesc_GB100;
+927:         }
+928:         // default
+929:         else
+930:         {
+931:             pThis->__kgspGetBinArchiveConcatenatedFMCDesc__ = &kgspGetBinArchiveConcatenatedFMCDesc_80f438;
+932:         }
+933:     }
+934: 
+935:     // kgspGetBinArchiveConcatenatedFMC -- halified (5 hals) body
+936:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+937:     {
+938:         pThis->__kgspGetBinArchiveConcatenatedFMC__ = &kgspGetBinArchiveConcatenatedFMC_80f438;
+939:     }
+940:     else
+941:     {
+942:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+943:         {
+944:             pThis->__kgspGetBinArchiveConcatenatedFMC__ = &kgspGetBinArchiveConcatenatedFMC_GH100;
+945:         }
+946:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000003f8UL) )) /* ChipHal: GB202 | GB203 | GB205 | GB206 | GB207 | GB20B | GB20C */ 
+947:         {
+948:             pThis->__kgspGetBinArchiveConcatenatedFMC__ = &kgspGetBinArchiveConcatenatedFMC_GB202;
+949:         }
+950:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0xb8000000UL) ) ||
+951:                  ( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* ChipHal: GB100 | GB102 | GB10B | GB110 | GB112 */ 
+952:         {
+953:             pThis->__kgspGetBinArchiveConcatenatedFMC__ = &kgspGetBinArchiveConcatenatedFMC_GB100;
+954:         }
+955:         // default
+956:         else
+957:         {
+958:             pThis->__kgspGetBinArchiveConcatenatedFMC__ = &kgspGetBinArchiveConcatenatedFMC_80f438;
+959:         }
+960:     }
+961: 
+962:     // kgspGetBinArchiveGspRmFmcGfwDebugSigned -- halified (7 hals) body
+963:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+964:     {
+965:         pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_80f438;
+966:     }
+967:     else
+968:     {
+969:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+970:         {
+971:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_GH100;
+972:         }
+973:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x20000000UL) )) /* ChipHal: GB10B */ 
+974:         {
+975:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_GB10B;
+976:         }
+977:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000300UL) )) /* ChipHal: GB20B | GB20C */ 
+978:         {
+979:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_GB20B;
+980:         }
+981:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000000f8UL) )) /* ChipHal: GB202 | GB203 | GB205 | GB206 | GB207 */ 
+982:         {
+983:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_GB202;
+984:         }
+985:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x98000000UL) ) ||
+986:                  ( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* ChipHal: GB100 | GB102 | GB110 | GB112 */ 
+987:         {
+988:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_GB100;
+989:         }
+990:         // default
+991:         else
+992:         {
+993:             pThis->__kgspGetBinArchiveGspRmFmcGfwDebugSigned__ = &kgspGetBinArchiveGspRmFmcGfwDebugSigned_80f438;
+994:         }
+995:     }
+996: 
+997:     // kgspGetBinArchiveGspRmFmcGfwProdSigned -- halified (7 hals) body
+998:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+999:     {
+1000:         pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_80f438;
+1001:     }
+1002:     else
+1003:     {
+1004:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x04000000UL) )) /* ChipHal: GH100 */ 
+1005:         {
+1006:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_GH100;
+1007:         }
+1008:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x20000000UL) )) /* ChipHal: GB10B */ 
+1009:         {
+1010:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_GB10B;
+1011:         }
+1012:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000300UL) )) /* ChipHal: GB20B | GB20C */ 
+1013:         {
+1014:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_GB20B;
+1015:         }
+1016:         else if (( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000000f8UL) )) /* ChipHal: GB202 | GB203 | GB205 | GB206 | GB207 */ 
+1017:         {
+1018:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_GB202;
+1019:         }
+1020:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x98000000UL) ) ||
+1021:                  ( ((chipHal_HalVarIdx >> 5) == 2UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* ChipHal: GB100 | GB102 | GB110 | GB112 */ 
+1022:         {
+1023:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_GB100;
+1024:         }
+1025:         // default
+1026:         else
+1027:         {
+1028:             pThis->__kgspGetBinArchiveGspRmFmcGfwProdSigned__ = &kgspGetBinArchiveGspRmFmcGfwProdSigned_80f438;
+1029:         }
+1030:     }
+
+## fsp-asset-selection: src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c
+
+826:     KernelFsp *pKernelFsp
+827: )
+828: {
+829:     KernelGsp *pKernelGsp                 = GPU_GET_KERNEL_GSP(pGpu);
+830:     ConfidentialCompute *pCC              = GPU_GET_CONF_COMPUTE(pGpu);
+831:     NV_ASSERT(pCC != NULL);
+832: 
+833:     if (pKernelFsp->getProperty(pKernelFsp, PDB_PROP_KFSP_GSP_MODE_GSPRM))
+834:     {
+835:         NV_PRINTF(LEVEL_NOTICE, "Loading GSP-RM image using FSP.\n");
+836: 
+837:         if (kgspIsDebugModeEnabled_HAL(pGpu, pKernelGsp))
+838:         {
+839: 
+840:             if (pCC != NULL && pCC->getProperty(pCC, PDB_PROP_CONFCOMPUTE_CC_FEATURE_ENABLED))
+841:             {
+842:                 return NULL;
+843:             }
+844:             else
+845:             {
+846: 
+847:                 return kgspGetBinArchiveGspRmFmcGfwDebugSigned_HAL(pKernelGsp);
+848:             }
+849:         }
+850:         else
+851:         {
+852:             if (pCC != NULL && pCC->getProperty(pCC, PDB_PROP_CONFCOMPUTE_CC_FEATURE_ENABLED))
+853:             {
+854:                 return kgspGetBinArchiveGspRmCcFmcGfwProdSigned_HAL(pKernelGsp);
+855:             }
+856:             else
+857:             {
+858:                 return kgspGetBinArchiveGspRmFmcGfwProdSigned_HAL(pKernelGsp);
+859:             }
+860:         }
+861:     }
+862: #if RMCFG_MODULE_ENABLED (GSP)
+863:     else
+864:     {
+865:         Gsp *pGsp = GPU_GET_GSP(pGpu);
+
+## fsp-cot-image-setup: src/nvidia/src/kernel/gpu/fsp/arch/hopper/kern_fsp_gh100.c
+
+990: static NV_STATUS
+991: kfspSetupGspImages
+992: (
+993:     OBJGPU           *pGpu,
+994:     KernelFsp        *pKernelFsp,
+995:     NVDM_PAYLOAD_COT *pCotPayload
+996: )
+997: {
+998:     NV_STATUS status = NV_OK;
+999: 
+1000:     const BINDATA_ARCHIVE *pBinArchive;
+1001:     PBINDATA_STORAGE pGspImage;
+1002:     PBINDATA_STORAGE pGspImageHash;
+1003:     PBINDATA_STORAGE pGspImageSignature;
+1004:     PBINDATA_STORAGE pGspImagePublicKey;
+1005:     NvBool bReUseInitMem  = pGpu->getProperty(pGpu, PDB_PROP_GPU_REUSE_INIT_CONTING_MEM);
+1006:     NvU32 pGspImageSize;
+1007:     NvU32 pGspImageMapSize;
+1008:     NvP64 pVaKernel = NULL;
+1009:     NvP64 pPrivKernel = NULL;
+1010:     NvU64 flags = MEMDESC_FLAGS_NONE;
+1011: 
+1012:     //
+1013:     // On systems with SEV enabled, the GSP-FMC image has to be accessible
+1014:     // to FSP (an unit inside GPU) and hence placed in unprotected sysmem
+1015:     //
+1016:     flags = MEMDESC_FLAGS_ALLOC_IN_UNPROTECTED_MEMORY;
+1017: 
+1018:     // Detect the mode of operation for GSP and fetch the right image to boot
+1019:     pBinArchive = kfspGetGspUcodeArchive(pGpu, pKernelFsp);
+1020:     if (pBinArchive == NULL)
+1021:     {
+1022:         NV_PRINTF(LEVEL_ERROR, "Cannot find correct ucode archive for booting!\n");
+1023:         status = NV_ERR_OBJECT_NOT_FOUND;
+1024:         goto failed;
+1025:     }
+1026: 
+1027:     // Set up the structures to send GSP-FMC
+1028:     pGspImage = (PBINDATA_STORAGE)bindataArchiveGetStorage(pBinArchive, BINDATA_LABEL_UCODE_IMAGE);
+1029:     pGspImageHash = (PBINDATA_STORAGE)bindataArchiveGetStorage(pBinArchive, BINDATA_LABEL_UCODE_HASH);
+1030:     pGspImageSignature = (PBINDATA_STORAGE)bindataArchiveGetStorage(pBinArchive, BINDATA_LABEL_UCODE_SIG);
+1031:     pGspImagePublicKey = (PBINDATA_STORAGE)bindataArchiveGetStorage(pBinArchive, BINDATA_LABEL_UCODE_PKEY);
+1032: 
+1033:     if ((pGspImage == NULL) || (pGspImageHash == NULL) ||
+1034:         (pGspImageSignature == NULL) || (pGspImagePublicKey == NULL))
+1035:     {
+1036:         status = NV_ERR_NOT_SUPPORTED;
+1037:         goto failed;
+1038:     }
+1039: 
+1040:     pGspImageSize = bindataGetBufferSize(pGspImage);
+1041:     pGspImageMapSize = NV_ALIGN_UP(pGspImageSize, 0x1000);
+1042:     if ((pKernelFsp->pGspFmcMemdesc == NULL) || !bReUseInitMem)
+1043:     {
+1044:         NV_ASSERT(pKernelFsp->pGspFmcMemdesc == NULL); // If we assert the pointer becomes a zombie.
+1045:         status = memdescCreate(&pKernelFsp->pGspFmcMemdesc, pGpu, pGspImageMapSize,
+1046:                                0, NV_TRUE, ADDR_SYSMEM, NV_MEMORY_CACHED, flags);
+1047:         NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1048: 
+1049:         memdescTagAlloc(status, NV_FB_ALLOC_RM_INTERNAL_OWNER_UNNAMED_TAG_7,
+1050:                         pKernelFsp->pGspFmcMemdesc);
+1051:         NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1052:     }
+1053:     status = memdescMap(pKernelFsp->pGspFmcMemdesc, 0, pGspImageMapSize, NV_TRUE,
+1054:                         NV_PROTECT_READ_WRITE, &pVaKernel, &pPrivKernel);
+1055:     NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1056: 
+1057:     portMemSet(pVaKernel, 0, pGspImageMapSize);
+1058: 
+1059:     status = bindataWriteToBuffer(pGspImage, pVaKernel, pGspImageSize);
+1060:     NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1061: 
+1062:     // Clean up CPU side resources since they are not needed anymore
+1063:     memdescUnmap(pKernelFsp->pGspFmcMemdesc, NV_TRUE, pVaKernel, pPrivKernel);
+1064: 
+1065:     pCotPayload->gspFmcSysmemOffset = memdescGetPhysAddr(pKernelFsp->pGspFmcMemdesc, AT_GPU, 0);
+1066: 
+1067:     status = bindataWriteToBuffer(pGspImageHash, (NvU8*)pCotPayload->hash384, sizeof(pCotPayload->hash384));
+1068:     NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1069: 
+1070:     NV_ASSERT_OR_GOTO(bindataGetBufferSize(pGspImageSignature) == pKernelFsp->cotPayloadSignatureSize, failed);
+1071:     NV_ASSERT_OR_GOTO(bindataGetBufferSize(pGspImageSignature) <= sizeof(pCotPayload->signature), failed);
+1072:     status = bindataWriteToBuffer(pGspImageSignature, (NvU8*)pCotPayload->signature, bindataGetBufferSize(pGspImageSignature));
+1073:     NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1074: 
+1075:     NV_ASSERT_OR_GOTO(bindataGetBufferSize(pGspImagePublicKey) == pKernelFsp->cotPayloadPublicKeySize, failed);
+1076:     NV_ASSERT_OR_GOTO(bindataGetBufferSize(pGspImagePublicKey) <= sizeof(pCotPayload->publicKey), failed);
+1077:     status = bindataWriteToBuffer(pGspImagePublicKey, (NvU8*)pCotPayload->publicKey, bindataGetBufferSize(pGspImagePublicKey));
+1078:     NV_ASSERT_OR_GOTO(status == NV_OK, failed);
+1079: 
+1080:     // Set up boot args based on the mode of operation
+
+## gb202-secure-boot: src/nvidia/src/kernel/gpu/fsp/arch/blackwell/kern_fsp_gb202.c
+
+42: 
+43: static NvBool _kfspWaitBootCond_GB202(OBJGPU *pGpu, void *pArg);
+44: 
+45: static NvBool
+46: _kfspWaitBootCond_GB202
+47: (
+48:     OBJGPU *pGpu,
+49:     void   *pArg
+50: )
+51: {
+52:     //
+53:     // In GB202, Bootfsm triggers FSP execution out of chip reset.
+54:     // FSP writes 0xFF value in NV_THERM_I2CS_SCRATCH register after completion of boot
+55:     //
+56:     return GPU_FLD_TEST_DRF_DEF(pGpu, _THERM_I2CS_SCRATCH, _FSP_BOOT_COMPLETE, _STATUS, _SUCCESS);
+57: }
+58: 
+59: NV_STATUS
+60: kfspWaitForSecureBoot_GB202
+61: (
+62:     OBJGPU    *pGpu,
+63:     KernelFsp *pKernelFsp
+64: )
+65: {
+66:     NV_STATUS status  = NV_OK;
+67:     RMTIMEOUT timeout;
+68: 
+69:     //
+70:     // Polling for FSP boot complete
+71:     // FBFalcon training during devinit alone takes 2 seconds, up to 3 on HBM3,
+72:     // but the default threadstate timeout on windows is 1800 ms. Increase to 4 seconds
+73:     // for this wait to match MODS GetGFWBootTimeoutMs.
+74:     // For flags, we must not use the GPU TMR since it is inaccessible.
+75:     // Increase to 5 seconds for WS SKUs especially needed for SKU's with larger VRAM.
+76:     //
+77:     gpuSetTimeout(pGpu, NV_MAX(gpuScaleTimeout(pGpu, 5000000), pGpu->timeoutData.defaultus),
+78:                   &timeout, GPU_TIMEOUT_FLAGS_OSTIMER | GPU_TIMEOUT_FLAGS_BYPASS_THREAD_STATE);
+79: 
+80:     status = gpuTimeoutCondWait(pGpu, _kfspWaitBootCond_GB202, NULL, &timeout);
+81: 
+82:     if (status != NV_OK)
+83:     {
+84:         NV_ASSERT_OK(gpuMarkDeviceForReset(pGpu));
+85:         NV_ERROR_LOG((void*) pGpu, GPU_INIT_ERROR, "Error status 0x%x while polling for FSP boot complete, "
+86:                      "0x%x, 0x%x, 0x%x, 0x%x, 0x%x",
+87:                      status,
+88:                      GPU_REG_RD32(pGpu, NV_THERM_I2CS_SCRATCH_FSP_BOOT_COMPLETE),
+89:                      GPU_REG_RD32(pGpu, NV_PFSP_FALCON_COMMON_SCRATCH_GROUP_2(0)),
+90:                      GPU_REG_RD32(pGpu, NV_PFSP_FALCON_COMMON_SCRATCH_GROUP_2(1)),
+91:                      GPU_REG_RD32(pGpu, NV_PFSP_FALCON_COMMON_SCRATCH_GROUP_2(2)),
+92:                      GPU_REG_RD32(pGpu, NV_PFSP_FALCON_COMMON_SCRATCH_GROUP_2(3)));
+93: 
+94:         kfspDumpDebugState_HAL(pGpu, pKernelFsp);
+95:     }
+96: 
+97:     return status;
+
+## gb202-sku-inputs: src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb202.c
+
+30: #include "os/os.h"
+31: 
+32: #define getUpperPCIBits(Id) ((Id >> 16) & 0xFFFF)
+33: #define PCI_TABLE_ENTRY(id, subId) ((getUpperPCIBits(pciId) == id) && (getUpperPCIBits(subDeviceId) == subId))
+34: 
+35: static NvBool _is48VmEnabled(NvU64 pciId, NvU64 subDeviceId)
+36: {
+37:     if (PCI_TABLE_ENTRY(0x2BB5, 0x204E) ||      // NVIDIA RTX Pro 6000 Blackwell DC
+38:         PCI_TABLE_ENTRY(0x2BB1, 0x204B) ||      // NVIDIA RTX Pro 6000 X
+39:         PCI_TABLE_ENTRY(0x2BB5, 0x220B))        // NVIDIA RTX PRO 6000 Blackwell Server Edition LC
+40:         return NV_TRUE;
+41: 
+42:     return NV_FALSE;
+43: }
+44: 
+45: NvU64 kgspVgpuFwHeapSize_GB202(OBJGPU *pGpu, KernelGsp *pKernelGsp)
+46: {
+47:     // This check only allows a subset of GPUs to support 48VMs. This comes from 
+48:     // VGPU requirements.
+49:     if (_is48VmEnabled(pGpu->idInfo.PCIDeviceID, pGpu->idInfo.PCISubDeviceID))
+50:         return GSP_FW_HEAP_SIZE_VGPU_48VMS;
+51: 
+52:     return GSP_FW_HEAP_SIZE_VGPU_DEFAULT;
+53: }
+54: 
+55: NvU64 kgspVgpuNumVgpuPartitions_GB202(OBJGPU *pGpu, KernelGsp *pKernelGsp)
+56: {
+57:     // This check only allows a subset of GPUs to support 48VMs. This comes from 
+58:     // VGPU requirements.
+59:     if (_is48VmEnabled(pGpu->idInfo.PCIDeviceID, pGpu->idInfo.PCISubDeviceID))
+60:         return MAX_PARTITIONS_WITH_GFID;
+61: 
+62:     return MAX_PARTITIONS_WITH_GFID_32VM;
+63: }
+
+## rate-api: src/common/sdk/nvidia/inc/ctrl/ctrl2080/ctrl2080gr.h
+
+1518: 
+1519: 
+1520: /*
+1521:  * NV2080_CTRL_CMD_GR_GET_SM_ISSUE_RATE_MODIFIER
+1522:  *
+1523:  * This command provides an interface to retrieve the speed select values of
+1524:  * various instruction types.
+1525:  *
+1526:  *    grRouteInfo[IN]
+1527:  *      This parameter specifies the routing information used to
+1528:  *      disambiguate the target GR engine.
+1529:  *
+1530:  *    imla0[OUT]
+1531:  *       The current speed select for IMLA0.
+1532:  *
+1533:  *    fmla16[OUT]
+1534:  *       The current speed select for FMLA16.
+1535:  *
+1536:  *    dp[OUT]
+1537:  *       The current speed select for DP.
+1538:  *
+1539:  *    fmla32[OUT]
+1540:  *       The current speed select for FMLA32.
+1541:  *
+1542:  *    ffma[OUT]
+1543:  *       The current speed select for FFMA.
+1544:  *
+1545:  *    imla1[OUT]
+1546:  *       The current speed select for IMLA1.
+1547:  *
+1548:  *    imla2[OUT]
+1549:  *       The current speed select for IMLA2.
+1550:  *
+1551:  *    imla3[OUT]
+1552:  *       The current speed select for IMLA3.
+1553:  *
+1554:  *    imla4[OUT]
+1555:  *       The current speed select for IMLA4.
+1556:  */
+1557: #define NV2080_CTRL_CMD_GR_GET_SM_ISSUE_RATE_MODIFIER                       (0x20801230U) /* finn: Evaluated from "(FINN_NV20_SUBDEVICE_0_GR_INTERFACE_ID << 8) | NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_PARAMS_MESSAGE_ID" */
+1558: 
+1559: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_FULL_SPEED          (0x0U)
+1560: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_2   (0x1U)
+1561: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_4   (0x2U)
+1562: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_8   (0x3U)
+1563: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_16  (0x4U)
+1564: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_32  (0x5U)
+1565: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_IMLA0_REDUCED_SPEED_1_64  (0x6U)
+1566: 
+1567: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_FULL_SPEED         (0x0U)
+1568: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_REDUCED_SPEED_1_2  (0x1U)
+1569: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_REDUCED_SPEED_1_4  (0x2U)
+1570: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_REDUCED_SPEED_1_8  (0x3U)
+1571: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_REDUCED_SPEED_1_16 (0x4U)
+1572: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA16_REDUCED_SPEED_1_32 (0x5U)
+1573: 
+1574: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_DP_FULL_SPEED             (0x0U)
+1575: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_DP_REDUCED_SPEED          (0x1U)
+1576: 
+1577: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_FULL_SPEED         (0x0U)
+1578: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_REDUCED_SPEED_1_2  (0x1U)
+1579: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_REDUCED_SPEED_1_4  (0x2U)
+1580: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_REDUCED_SPEED_1_8  (0x3U)
+1581: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_REDUCED_SPEED_1_16 (0x4U)
+1582: #define NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_FMLA32_REDUCED_SPEED_1_32 (0x5U)
+
+## rate-getter: src/nvidia/src/kernel/gpu/gr/kernel_graphics.c
+
+3197:  * subdeviceCtrlCmdKGrGetSmIssueRateModifier
+3198:  *
+3199:  * Lock Requirements:
+3200:  *      Assert that API lock and GPUs lock held on entry
+3201:  */
+3202: NV_STATUS
+3203: subdeviceCtrlCmdKGrGetSmIssueRateModifier_IMPL
+3204: (
+3205:     Subdevice *pSubdevice,
+3206:     NV2080_CTRL_GR_GET_SM_ISSUE_RATE_MODIFIER_PARAMS *pParams
+3207: )
+3208: {
+3209:     OBJGPU *pGpu = GPU_RES_GET_GPU(pSubdevice);
+3210:     KernelGraphics *pKernelGraphics;
+3211:     Device *pDevice = GPU_RES_GET_DEVICE(pSubdevice);
+3212:     KernelGraphicsManager *pKernelGraphicsManager = GPU_GET_KERNEL_GRAPHICS_MANAGER(pGpu);
+3213:     const KGRAPHICS_STATIC_INFO *pStaticInfo;
+3214:     KernelMIGManager *pKernelMIGManager = GPU_GET_KERNEL_MIG_MANAGER(pGpu);
+3215: 
+3216:     NV_ASSERT_OR_RETURN(rmapiLockIsOwner() && rmGpuLockIsOwner(), NV_ERR_INVALID_LOCK_STATE);
+3217: 
+3218:     if (kmigmgrIsDeviceUsingDeviceProfiling(pGpu, pKernelMIGManager, pDevice))
+3219:     {
+3220:         NvU32 grIdx;
+3221:         for (grIdx = 0; grIdx < GPU_MAX_GRS; grIdx++)
+3222:         {
+3223:             pKernelGraphics = GPU_GET_KERNEL_GRAPHICS(pGpu, grIdx);
+3224:             if (pKernelGraphics != NULL)
+3225:                 break;
+3226:         }
+3227:         if (pKernelGraphics == NULL)
+3228:             return NV_ERR_INVALID_STATE;
+3229:     }
+3230:     else
+3231:     {
+3232:         NV_CHECK_OK_OR_RETURN(LEVEL_ERROR,
+3233:             kgrmgrCtrlRouteKGRWithDevice(pGpu, pKernelGraphicsManager, pDevice, &pParams->grRouteInfo, &pKernelGraphics));
+3234:     }
+3235: 
+3236:     // Verify static info is available
+3237:     pStaticInfo = kgraphicsGetStaticInfo(pGpu, pKernelGraphics);
+3238:     NV_ASSERT_OR_RETURN(pStaticInfo != NULL, NV_ERR_INVALID_STATE);
+3239:     NV_ASSERT_OR_RETURN(pStaticInfo->pSmIssueRateModifier != NULL, NV_ERR_NOT_SUPPORTED);
+3240: 
+3241:     pParams->imla0 = pStaticInfo->pSmIssueRateModifier->imla0;
+3242:     pParams->fmla16 = pStaticInfo->pSmIssueRateModifier->fmla16;
+3243:     pParams->dp = pStaticInfo->pSmIssueRateModifier->dp;
+3244:     pParams->fmla32 = pStaticInfo->pSmIssueRateModifier->fmla32;
+3245:     pParams->ffma = pStaticInfo->pSmIssueRateModifier->ffma;
+3246:     pParams->imla1 = pStaticInfo->pSmIssueRateModifier->imla1;
+3247:     pParams->imla2 = pStaticInfo->pSmIssueRateModifier->imla2;
+3248:     pParams->imla3 = pStaticInfo->pSmIssueRateModifier->imla3;
+3249:     pParams->imla4 = pStaticInfo->pSmIssueRateModifier->imla4;
+3250: 
+3251:     return NV_OK;
+3252: }
+
+## rate-info-source: src/nvidia/src/kernel/gpu/gr/kernel_graphics.c
+
+1380:     }
+1381:     else if (status == NV_ERR_NOT_SUPPORTED)
+1382:     {
+1383:         // It's expected to get this error when MIG is enabled, thus don't return error
+1384:         if (IS_MIG_ENABLED(pGpu))
+1385:         {
+1386:             status = NV_OK;
+1387:         }
+1388:     }
+1389: 
+1390:     // SM Issue Rate Modifier
+1391:     portMemSet(pParams, 0, sizeof(*pParams));
+1392:     status = pRmApi->Control(pRmApi,
+1393:                              hClient,
+1394:                              hSubdevice,
+1395:                              NV2080_CTRL_CMD_INTERNAL_STATIC_KGR_GET_SM_ISSUE_RATE_MODIFIER,
+1396:                              pParams,
+1397:                              sizeof(pParams->smIssueRateModifier));
+1398: 
+1399:     if (status == NV_OK)
+1400:     {
+1401:         pPrivate->staticInfo.pSmIssueRateModifier = portMemAllocNonPaged(sizeof(*pPrivate->staticInfo.pSmIssueRateModifier));
+1402:         if (pPrivate->staticInfo.pSmIssueRateModifier == NULL)
+1403:         {
+1404:             status = NV_ERR_NO_MEMORY;
+1405:             goto cleanup;
+1406:         }
+1407: 
+1408:         portMemCopy(pPrivate->staticInfo.pSmIssueRateModifier, sizeof(*pPrivate->staticInfo.pSmIssueRateModifier),
+1409:                     &pParams->smIssueRateModifier.smIssueRateModifier[grIdx], sizeof(pParams->smIssueRateModifier.smIssueRateModifier[grIdx]));
+1410:     }
+1411:     else if (status == NV_ERR_NOT_SUPPORTED)
+
+## descriptor-definition: src/nvidia/arch/nvalloc/common/inc/rmRiscvUcode.h
+
+35: 
+36: typedef struct {
+37:     //
+38:     // Version 1
+39:     // Version 2
+40:     // Version 3 = for Partition boot
+41:     // Version 4 = for eb riscv boot
+42:     // Version 5 = Support signing entire RISC-V image as "code" in code section for hopper and later.
+43:     //
+44:     NvU32  version;                         // structure version
+45:     NvU32  bootloaderOffset;
+46:     NvU32  bootloaderSize;
+47:     NvU32  bootloaderParamOffset;
+48:     NvU32  bootloaderParamSize;
+49:     NvU32  riscvElfOffset;
+50:     NvU32  riscvElfSize;
+51:     NvU32  appVersion;                      // Changelist number associated with the image
+52:     //
+53:     // Manifest contains information about Monitor and it is
+54:     // input to BR
+55:     //
+56:     NvU32  manifestOffset;
+57:     NvU32  manifestSize;
+58:     //
+59:     // Monitor Data offset within RISCV image and size
+60:     //
+61:     NvU32  monitorDataOffset;
+62:     NvU32  monitorDataSize;
+63:     //
+64:     // Monitor Code offset withtin RISCV image and size
+65:     //
+66:     NvU32  monitorCodeOffset;
+67:     NvU32  monitorCodeSize;
+68:     NvU32  bIsMonitorEnabled;
+69:     //
+70:     // Swbrom Code offset within RISCV image and size
+71:     //
+72:     NvU32  swbromCodeOffset;
+73:     NvU32  swbromCodeSize;
+74:     //
+75:     // Swbrom Data offset within RISCV image and size
+76:     //
+77:     NvU32  swbromDataOffset;
+78:     NvU32  swbromDataSize;
+79:     //
+80:     // Total size of FB carveout (image and reserved space).
+81:     //
+82:     NvU32  fbReservedSize;
+83:     //
+84:     // Indicates whether the entire RISC-V image is signed as "code" in code section.
+85:     //
+86:     NvU32  bSignedAsCode;
+87:     //
+88:     // SMP (multihart) and PLIC (split interrupts)
+89:     // enablement options
+90:     //
+91:     NvU32 bIsSmp;
+92:     NvU32 bIsPlicEnabled;
+93: } RM_RISCV_UCODE_DESC;
+94: 
+
+
+## gb202-debug-mode: src/nvidia/src/kernel/gpu/gsp/arch/blackwell/kernel_gsp_gb100.c
+240: /*!
+241:  * Check if the GSP is in debug mode
+242:  *
+243:  * @return whether the GSP is in debug mode or not
+244:  */
+245: NvBool
+246: kgspIsDebugModeEnabled_GB100
+247: (
+248:     OBJGPU *pGpu,
+249:     KernelGsp *pKernelGsp
+250: )
+251: {
+252:     NvU32 data = GPU_REG_RD32(pGpu, gpuGetPrimaryFuseBaseAddr_HAL(pGpu) + NV_FUSE_ZB_OPT_SECURE_GSP_DEBUG_DIS);
+253:     return FLD_TEST_DRF(_FUSE_ZB, _OPT_SECURE_GSP_DEBUG_DIS, _DATA, _NO, data);
+254: }
+
+## bootstrap-dispatch: src/nvidia/generated/g_kernel_gsp_nvoc.c
+768:         pThis->__kgspPrepareForBootstrap__ = &kgspPrepareForBootstrap_5baef9;
+769:     }
+770:     else
+771:     {
+772:         if (( ((chipHal_HalVarIdx >> 5) == 3UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x0000a000UL) )) /* ChipHal: T234D | T264D */ 
+773:         {
+774:             pThis->__kgspPrepareForBootstrap__ = &kgspPrepareForBootstrap_5baef9;
+775:         }
+776:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x01f0ffe0UL) )) /* ChipHal: TU102 | TU104 | TU106 | TU116 | TU117 | GA100 | GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD104 | AD106 | AD107 */ 
+777:         {
+778:             pThis->__kgspPrepareForBootstrap__ = &kgspPrepareForBootstrap_TU102;
+779:         }
+780:         else
+781:         {
+782:             pThis->__kgspPrepareForBootstrap__ = &kgspPrepareForBootstrap_GH100;
+783:         }
+784:     }
+785: 
+786:     // kgspBootstrap -- halified (4 hals) body
+787:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+788:     {
+789:         pThis->__kgspBootstrap__ = &kgspBootstrap_5baef9;
+790:     }
+791:     else
+792:     {
+793:         if (( ((chipHal_HalVarIdx >> 5) == 3UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x0000a000UL) )) /* ChipHal: T234D | T264D */ 
+794:         {
+795:             pThis->__kgspBootstrap__ = &kgspBootstrap_5baef9;
+796:         }
+797:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x01f0ffe0UL) )) /* ChipHal: TU102 | TU104 | TU106 | TU116 | TU117 | GA100 | GA102 | GA103 | GA104 | GA106 | GA107 | AD102 | AD103 | AD104 | AD106 | AD107 */ 
+798:         {
+799:             pThis->__kgspBootstrap__ = &kgspBootstrap_TU102;
+800:         }
+801:         else
+802:         {
+803:             pThis->__kgspBootstrap__ = &kgspBootstrap_GH100;
+804:         }
+805:     }
+
+## booter-dispatch: src/nvidia/generated/g_kernel_gsp_nvoc.c
+1593: 
+1594:     // kgspGetBinArchiveBooterLoadUcode -- halified (7 hals) body
+1595:     if (( ((rmVariantHal_HalVarIdx >> 5) == 0UL) && ((1UL << (rmVariantHal_HalVarIdx & 0x1f)) & 0x00000001UL) )) /* RmVariantHal: VF */ 
+1596:     {
+1597:         pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_80f438;
+1598:     }
+1599:     else
+1600:     {
+1601:         if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000400UL) )) /* ChipHal: GA100 */ 
+1602:         {
+1603:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_GA100;
+1604:         }
+1605:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x00000300UL) )) /* ChipHal: TU116 | TU117 */ 
+1606:         {
+1607:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_TU116;
+1608:         }
+1609:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x000000e0UL) )) /* ChipHal: TU102 | TU104 | TU106 */ 
+1610:         {
+1611:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_TU102;
+1612:         }
+1613:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x0000f800UL) )) /* ChipHal: GA102 | GA103 | GA104 | GA106 | GA107 */ 
+1614:         {
+1615:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_GA102;
+1616:         }
+1617:         else if (( ((chipHal_HalVarIdx >> 5) == 1UL) && ((1UL << (chipHal_HalVarIdx & 0x1f)) & 0x01f00000UL) )) /* ChipHal: AD102 | AD103 | AD104 | AD106 | AD107 */ 
+1618:         {
+1619:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_AD102;
+1620:         }
+1621:         else
+1622:         {
+1623:             pThis->__kgspGetBinArchiveBooterLoadUcode__ = &kgspGetBinArchiveBooterLoadUcode_80f438;
+1624:         }
+1625:     }
+1626: 
+1627:     // kgspGetBinArchiveBooterUnloadUcode -- halified (7 hals) body

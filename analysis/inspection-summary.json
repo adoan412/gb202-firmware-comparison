@@ -1,0 +1,159 @@
+{
+  "artifacts": 43,
+  "selected": 8,
+  "source_package_arrays_verified": 18,
+  "fmc_sha384_matches": true,
+  "descriptor_words": [
+    6,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    2560,
+    2560,
+    59392,
+    61952,
+    225280,
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "comparisons": [
+    {
+      "label": "GB20x non-CC vs CC signature section",
+      "a_size": 4096,
+      "b_size": 4096,
+      "a_sha256": "d2177f6a4bd633dc1d02349c5ed3abd67392c98869d72a7c13569e29391b95bc",
+      "b_sha256": "bd9dcae47304766f0aa0c01aebcce9066daa4f3059a225b3af39670895dc755f",
+      "identical": false,
+      "different_byte_positions_including_length": 1529,
+      "meaning": "configuration variant within one container, not consumer versus professional SKU"
+    },
+    {
+      "label": "GB20x vs GA10x signature section",
+      "a_size": 4096,
+      "b_size": 4096,
+      "a_sha256": "d2177f6a4bd633dc1d02349c5ed3abd67392c98869d72a7c13569e29391b95bc",
+      "b_sha256": "bd42964867379cdcc88058b9f22cb9ea3e4d5966e6246b6bb88bc813d87691d5",
+      "identical": false,
+      "different_byte_positions_including_length": 1535,
+      "meaning": "different chip-family signatures within one container, not consumer versus professional SKU"
+    },
+    {
+      "label": "GB202 boot production vs debug descriptor",
+      "a_size": 92,
+      "b_size": 92,
+      "a_sha256": "6f4ecedadb0a7da00feb59a6d8bff7cc428cdfe32ba9b455c067a9393f4c0c91",
+      "b_sha256": "6f4ecedadb0a7da00feb59a6d8bff7cc428cdfe32ba9b455c067a9393f4c0c91",
+      "identical": true,
+      "different_byte_positions_including_length": 0,
+      "meaning": "variant comparison, not RTX 5090 versus RTX PRO 6000"
+    },
+    {
+      "label": "GB202 boot production vs debug image",
+      "a_size": 290816,
+      "b_size": 290816,
+      "a_sha256": "e0d4f6338539a7fdf3254b8a43d71171548e4f4cbd94546b4fc8e23568f9ac1f",
+      "b_sha256": "8e47970de1b4dc3d1d46e14ff77f9abdf1f1e7c673ec776724c08470f0037041",
+      "identical": false,
+      "different_byte_positions_including_length": 285986,
+      "meaning": "variant comparison, not RTX 5090 versus RTX PRO 6000"
+    },
+    {
+      "label": "FMC production vs debug IMAGE",
+      "a_size": 287304,
+      "b_size": 287304,
+      "a_sha256": "960ccfe7c51c0ba3b520801f832474326229c53d51d6f190cd5877a3325e43ef",
+      "b_sha256": "42e8e5955142d2ce677cf9c0724a79d21b905ffc3ad464f938004b7ba87974e8",
+      "identical": false,
+      "different_byte_positions_including_length": 285986,
+      "meaning": "variant comparison; no instruction-level inference from differing opaque bytes"
+    },
+    {
+      "label": "FMC production vs debug HASH",
+      "a_size": 48,
+      "b_size": 48,
+      "a_sha256": "0c7c43d9bc405c2aba64f88e87459f9e12f789cf4172b7ef5c410be56424809c",
+      "b_sha256": "2887b50a0f8002ff8ce2a4b1cf84386c3bb375c2e152607c3b005a214051a4e4",
+      "identical": false,
+      "different_byte_positions_including_length": 48,
+      "meaning": "variant comparison; no instruction-level inference from differing opaque bytes"
+    },
+    {
+      "label": "FMC production vs debug SIG",
+      "a_size": 96,
+      "b_size": 96,
+      "a_sha256": "03008489c5fa3a2b555793e8a1555c0ed22465ce8347efa5a5f1ebbcfde88c6a",
+      "b_sha256": "2e81015b615502dde7436e1700d7cc83271d688c4b95ee08be76e2f00cf513e9",
+      "identical": false,
+      "different_byte_positions_including_length": 96,
+      "meaning": "variant comparison; no instruction-level inference from differing opaque bytes"
+    },
+    {
+      "label": "FMC production vs debug PKEY",
+      "a_size": 97,
+      "b_size": 97,
+      "a_sha256": "af870e5dde972840588bfb94a87f94b19ad6659dae6e1343dd0d22f16074ba39",
+      "b_sha256": "9cdd06eb4b7c6d7ae1b75daa142c4695ff613d7791e642658a674d1147bf371e",
+      "identical": false,
+      "different_byte_positions_including_length": 95,
+      "meaning": "variant comparison; no instruction-level inference from differing opaque bytes"
+    },
+    {
+      "label": "production FMC signed image vs corresponding prefix of boot image",
+      "a_size": 287304,
+      "b_size": 287304,
+      "a_sha256": "960ccfe7c51c0ba3b520801f832474326229c53d51d6f190cd5877a3325e43ef",
+      "b_sha256": "15de3eed5f81803a67877b328bb3ded096b71ca52f5666107295b1f58d0344cf",
+      "identical": false,
+      "different_byte_positions_including_length": 286181,
+      "meaning": "tests relationship of differently packaged boot assets, not a SKU comparison"
+    }
+  ],
+  "readability": [
+    {
+      "id": "boot_prod",
+      "entropy_bits_per_byte": 7.983033346821106,
+      "printable_strings_24plus": 0,
+      "elf_magic_offsets": [],
+      "warning": "entropy/strings are descriptive only; neither establishes encryption or executable coverage"
+    },
+    {
+      "id": "fmc_prod",
+      "entropy_bits_per_byte": 7.999354598783929,
+      "printable_strings_24plus": 0,
+      "elf_magic_offsets": [],
+      "warning": "entropy/strings are descriptive only; neither establishes encryption or executable coverage"
+    },
+    {
+      "id": "gsp_rm_fwimage",
+      "entropy_bits_per_byte": 7.810339330478664,
+      "printable_strings_24plus": 2292,
+      "elf_magic_offsets": [
+        450560,
+        610304,
+        774144,
+        966656,
+        1159168,
+        1351680,
+        1540096,
+        1585152,
+        1634304,
+        17788928,
+        18554880,
+        28998334
+      ],
+      "warning": "entropy/strings are descriptive only; neither establishes encryption or executable coverage"
+    }
+  ]
+}

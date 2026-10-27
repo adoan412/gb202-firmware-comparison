@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-27",
+  "method": "fresh local Git checkout of a temporary seed commit; five pinned upstream repositories fetched over network; installer freshly downloaded from NVIDIA; no existing research input directories copied",
+  "commands": "Every bash block from REPRODUCE.md executed in order, including optional binutils check.",
+  "reproduce_sha256": "3a06c490018ec91c7dbf800616ec6a04f597ebaa0d3d8f3025d15ec4ebc2a820",
+  "core_scripts_sha256": {
+    "scripts/inspect_firmware.py": "644af2c7658c70c498e8b92439831d1c81fdf017649a27e9435b6f7e3f7abdde",
+    "scripts/audit_pro_reference.py": "8af260b9e73cf8b3765d1f8fb2f9ed0bcafcdb5d06a16fdab35e54533c7f8597",
+    "scripts/verify_results.py": "790324f893a5fc448d42a5bf59a82b175ea14063eb5c5265ec327d2c0ca9fdec"
+  },
+  "python": "3.14.4",
+  "binutils": "GNU readelf (GNU Binutils for Ubuntu) 2.46",
+  "results": {
+    "source_package_array_matches": 18,
+    "archives": 6,
+    "derived_artifacts_size_hash_verified": 43,
+    "metadata_matches_committed_reference": true,
+    "pro_csv_and_file_audit_recomputed": true,
+    "gnu_objcopy_fwimage_matches": true,
+    "original_container_hash_preserved": true
+  },
+  "hardware_access": false,
+  "driver_installed": false,
+  "source_research_code_executed": false,
+  "official_archive_extract_only_executed": true,
+  "not_tested": [
+    "other operating systems",
+    "other Python/binutils versions",
+    "physical-board identity or measurements",
+    "third-party hardware benchmark execution",
+    "signature trust-chain authentication",
+    "GitHub publishing or comment submission"
+  ],
+  "limitation": "This is a fresh rerun by the same analyst and environment, not independent-laboratory validation. Package checker and URL validation were run separately."
+}

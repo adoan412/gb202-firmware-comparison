@@ -1,0 +1,32 @@
+{
+  "driver_version": "595.58.03",
+  "driver": {
+    "path": "work/downloads/NVIDIA-Linux-x86_64-595.58.03-no-compat32.run",
+    "url": "https://download.nvidia.com/XFree86/Linux-x86_64/595.58.03/NVIDIA-Linux-x86_64-595.58.03-no-compat32.run",
+    "size": 315823191,
+    "sha256": "b66c59b9bebc191b9c21bad7476da1486dd390198223a548892110bca5fb91f9",
+    "official_sha256_verified": true
+  },
+  "repositories": {
+    "open-gpu-kernel-modules": {
+      "commit": "db0c4e65c8e34c678d745ddb1317f53f90d1072b",
+      "remote": "https://github.com/NVIDIA/open-gpu-kernel-modules.git"
+    },
+    "gpu-unlock-blackwell": {
+      "commit": "d3326e7dbfe3eff6e0cb8823b2c2d76e701fe95c",
+      "remote": "https://github.com/phiraml/gpu-unlock-blackwell.git"
+    },
+    "gpu-unlock-ada": {
+      "commit": "d28c485418c3d9d034cd4bac19200bc33dd3453b",
+      "remote": "https://github.com/JustAResearcher/gpu-unlock-ada.git"
+    },
+    "vgpu-unlock-blackwell": {
+      "commit": "22d2b112e20981565d543b74745c8c02bf4e8960",
+      "remote": "https://github.com/bird/vgpu-unlock-blackwell.git"
+    },
+    "blackwell-tensorcore-kernels": {
+      "commit": "c289bdedb5f256fdf1351de3cacf7757564a0dd0",
+      "remote": "https://github.com/waynehacking8/blackwell-tensorcore-kernels.git"
+    }
+  }
+}

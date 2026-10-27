@@ -1,0 +1,14 @@
+# What Evidence Would Advance This Investigation?
+
+These are proposed observations, not experiments performed by this project. Start with existing owner records and supported read-only interfaces; keep stock settings and record the exact board variant. Do not deploy experimental drivers or perform unrestricted MMIO scans.
+
+| Priority | Observation | What it could establish | What would remain unknown |
+|---|---|---|---|
+| 1 | Matched-driver RTX 5090 / RTX PRO 6000 RM issue-rate responses, with status, PCI/subsystem IDs, board revision, GPU identity recorded locally, VBIOS/GSP versions, OS, CC/vGPU/MIG context and installed-file hashes | Whether the same supported interface reports a corresponding effective-rate distinction under matched software | A reported rate is not a direct fuse read; firmware setter, complete hardware state and resident-code identity remain unknown |
+| 2 | Existing validated, narrowly scoped read-only speed-selector, privilege-mask and relevant fuse records, with precise Blackwell field definitions and collection provenance | Whether reported rates correlate with actual selector/fuse state; differing validated fuse state would strengthen hypothesis A | Correlation is not causation; identical visible words do not prove complete security-state identity; no capture technique is authorized by this plan |
+| 3 | The same reviewed register-resident instruction-throughput probe on both stock products, compiled with a matched toolkit; inspect emitted SASS, repeat per-clock and wall-clock timing, retain numerical checks and existing telemetry | Whether the chosen FP16-input accumulation instructions have differing sustainable per-clock throughput, with library-dispatch ambiguity reduced | Does not alone isolate fuses, initialization or the writer of a setting; does not predict application-wide speedups |
+| 4 | Provenance-verified OEM/official VBIOS files or pre-existing owner ROM images from both boards, analyzed offline with component boundaries and hashes | Where board configuration or executable payloads differ; whether a particular mutable FSP image can be identified from documented layout | Differences may simply describe VRAM, clocks or board layout; they do not establish throughput causality or transferability |
+
+**INFERRED:** the smallest useful next dataset is matched identity/provenance plus the two RM responses. Add a matched instruction probe to tie the reported field to behavior. Add validated fuse/effective-state evidence to distinguish hardware inputs from initialization. No single one of these observations establishes every causal link.
+
+Do not publish GPU UUIDs, serial numbers or other owner/machine identifiers in raw captures. Keep those locally for correlation; use stable anonymized labels and retain version/board metadata necessary for comparison.
